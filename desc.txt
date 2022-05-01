@@ -1,0 +1,40 @@
+Idea:
+
+User inputs a set of questions each with a time limit in m:s or h:m:s format
+app flips through each of them, with an input box to save answers, and
+displays Question: Answer at the end
+
+TODO: Persistence of questions
+shouldn't be too hard to write them all to a file questions.txt, separated
+by \n
+start with time in minutes
+
+Process:
+1. Question menu (could have a load questions? option in the future)
+    a. Add a question? | Done.
+        i. yes -> b.
+        ii. no -> 2.
+    b. Input question
+        i. type your question (must have no newlines)
+        ii. how much time do you have for it?
+        iii. done.
+    c. loop back to a.
+    d. write each question to a file questions_{date}.txt
+2. Start window
+    a. Are you ready? Start button
+        i. Start -> 3
+        ii. Just wait
+3. Test window
+    a. set i to 1
+    b. if i >= n, go to 4., else
+    c. display question i
+    d. set timer to timer[i]
+    e. start countdown
+    f. Show an input box for the answer
+        i. Done -> cut time off, set i = i + 1, and loop to b.
+        ii. else wait
+    g. if the countdown reaches 0, set i = i + 1 and loop to b even if
+       no input has been given (set input to None)
+4. Answers window
+    a. Display (Question | Time taken \n Answer)
+    b. option to exit app

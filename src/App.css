@@ -30,12 +30,19 @@
 
 .qmenu {
   display: flex;
+  height: 100vh;
   flex-direction: column;
+  justify-content: space-evenly;
+  align-items: center;
+  width: 100vw;
 }
 
 .qbuttons {
   display: flex;
   flex-direction: row;
+  justify-content: center;
+  align-items: center;
+  width: 100vw;
 }
 
 @keyframes App-logo-spin {

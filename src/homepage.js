@@ -16,7 +16,7 @@ function HomePage() {
                     minWidth: "30vw",
                     minHeight: "10vh",
                     fontSize: 20,
-                }}>Start</Button> 
+                }}>Get Started</Button> 
             </Link>
         </div>
     );

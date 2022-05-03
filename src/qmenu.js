@@ -38,7 +38,7 @@ function QuestionMenu(props) {
             <h1 style={{fontSize: 72}}>{title}</h1>
             <form
                 onSubmit={handleSubmit}
-                className="qmenu"
+                className="menu"
             >
                 <FormControl style={{margin: "2.5em"}}>
                     <InputLabel htmlFor="questions">Type a question</InputLabel>
@@ -60,7 +60,7 @@ function QuestionMenu(props) {
                     >
                     </Input>
                 </FormControl>
-                <div className="qbuttons" style={{margin: "2.5em"}}>
+                <div className="buttons" style={{margin: "2.5em"}}>
                     <Button variant='contained' type='submit' style={{margin: "10px"}}>
                         Add question
                     </Button>

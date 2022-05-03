@@ -38,7 +38,7 @@
   color: #61dafb;
 }
 
-.qmenu {
+.menu {
   display: flex;
   height: 100vh;
   flex-direction: column;
@@ -47,7 +47,7 @@
   width: 100vw;
 }
 
-.qbuttons {
+.buttons {
   display: flex;
   flex-direction: row;
   justify-content: center;

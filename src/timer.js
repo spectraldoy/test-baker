@@ -6,6 +6,10 @@ import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
 // TODO: pause button in timer
 
+function min(a, b) {
+    return (a < b) ? a : b
+}
+
 function TimerDisplay(props) {
     const title = "🅱️est 🅱️aker"
     const navigate = useNavigate()
@@ -13,27 +17,29 @@ function TimerDisplay(props) {
     const [i, setI] = useState(0);
     var curAns = ""
     // for some reason this needs to be expiryTimeStamp
-    var expiryTimestamp = new Date();
+    let expiryTimestamp = new Date();
     expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[i] * 60);
     const {
         seconds,
         minutes,
         hours,
+        start,
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value) });
 
     function answerQuestion(a) {
-        if (i >= n - 1) {
-            return navigate("/finaldestination")
-        }
-
         expiryTimestamp = new Date()
-        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[i + 1] * 60);
-        setInterval(() => restart(expiryTimestamp, true), 1)
+        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[min(i + 1, n - 1)] * 60);
+        // this delay causes display problems
+        setTimeout(() => restart(expiryTimestamp, true), 0)
 
         document.getElementById("answers").value = ""
         props.asetter(a)
         setI(i + 1);
+        
+        if (i >= n - 1) {
+            return navigate("/finaldestination")
+        } 
     }
 
     function handleSubmit(e) {
@@ -46,14 +52,26 @@ function TimerDisplay(props) {
         var question = props.qs[i]
 
         return (
-            <h2 style={{fontSize: 36}}>{i + 1}. {question}</h2>
+            <h2 style={{fontSize: 36, maxWidth: "65vw",}}>{i + 1}. {question}</h2>
         );
+    }
+
+    function formatTime(t) {
+        if (t < 10) {
+            return "0" + t
+        } else {
+            return t
+        }
     }
 
     return (
         <div className="App">
-            <h1 style={{fontSize: 72}}>{title}</h1>
-            <h1 style={{fontSize: 160, marginTop: "-1vh", marginBottom: "-1vh"}}>{hours}:{minutes}:{seconds}</h1>
+            <h1 style={{fontSize: 72, maxWidth: "40vw"}}>{title}</h1>
+            <h1 style={{
+                fontSize: 160,
+                marginTop: "-1vh",
+                marginBottom: "-1vh",
+            }}>{minutes}:{formatTime(seconds)}</h1>
             {displayQuestion()}
             <form
                 onSubmit={handleSubmit}

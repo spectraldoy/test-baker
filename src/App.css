@@ -17,8 +17,9 @@
 .App {
   display: flex;
   flex-direction: column;
+  min-width: 100vw;
   align-items: center;
-  justify-content: flex-start;
+  justify-content: center;
 }
 
 .Hpage {

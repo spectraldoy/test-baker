@@ -9,8 +9,8 @@ import FinalDestination from './finaldestination';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 function App() {
-  const [questions, setQuestions] = useState(["qsdf", "sdf"])
-  const [timers, setTimers] = useState([0.1, 0.75])
+  const [questions, setQuestions] = useState([])
+  const [timers, setTimers] = useState([])
   const [answers, setAnswers] = useState([])
 
   console.log("Questions:", questions)

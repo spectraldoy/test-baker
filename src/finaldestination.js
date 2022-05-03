@@ -18,7 +18,7 @@ function FinalDestination(props) {
         return questionsAndAnswers.map((item, idx) => {
             return (
                 <h2>
-                    <li fontSize>
+                    <li key={item.label}>
                         {item.question}
                         <p style={{color: "blue"}}>{item.answer}</p>
                         <br></br>

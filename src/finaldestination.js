@@ -37,13 +37,23 @@ function FinalDestination(props) {
                 style={{textDecoration: 'none'}}
                 to="/"
             >
-                <Button variant="contained" style={{
-                    marginBottom: "10vh",
-                    marginTop: "6vh",
-                    minWidth: "30vw",
-                    minHeight: "10vh",
-                    fontSize: 20,
-                }}>Another one!</Button> 
+                <Button
+                    variant="contained" 
+                    style={{
+                        marginBottom: "10vh",
+                        marginTop: "6vh",
+                        minWidth: "30vw",
+                        minHeight: "10vh",
+                        fontSize: 20,
+                    }}
+                    onClick={() => {
+                        props.qsetter([])
+                        props.tsetter([])
+                        props.asetter([])
+                    }}
+                >
+                    Another one!
+                </Button> 
             </Link>
         </div>
     );

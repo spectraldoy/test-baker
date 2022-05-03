@@ -13,29 +13,33 @@ function TimerDisplay(props) {
     const [i, setI] = useState(0); 
     var curAns = ""
 
-    function handleSubmit(e) {
+    function answerQuestion(a) {
         setI(i + 1); 
-
-        e.preventDefault() // this is the one that prevents the rerender
-        curAns = e.target[0].value;
+        
         document.getElementById("answers").value = ""
-        props.asetter(curAns)
-        curAns = ""
+        props.asetter(a)
 
         if (i >= n) {
             return navigate("/finaldestination")
         }
     }
 
+    function handleSubmit(e) {
+        e.preventDefault() // this is the one that prevents the rerender
+        curAns = e.target[0].value;
+        return answerQuestion(curAns);
+    }
+
     function displayTimer() {
+        var timeLimit = props.ts[i] * 1000 * 60
+        setTimeout(() => answerQuestion(document.getElementById("answers").value), timeLimit);
+
         return <></>
     }
 
     function displayQuestion() {
         var question = props.qs[i]
-        var timeLimit = props.ts[i] * 1000 * 60
 
-        
         return (
             <h2 style={{fontSize: 36}}>{i + 1}. {question}</h2>
         );

@@ -1,5 +1,6 @@
-.App {
+.App-header {
   text-align: center;
+  background-color: #282c34;
 }
 
 .App-logo {
@@ -13,15 +14,24 @@
   }
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.App {
   display: flex;
   flex-direction: column;
   align-items: center;
+  justify-content: flex-start;
+}
+
+.Hpage {
+  display: flex;
+  min-height: 100vh;
+  flex-direction: column;
+  align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  -webkit-animation: fadein 2s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 2s; /* Firefox < 16 */
+   -ms-animation: fadein 2s; /* Internet Explorer */
+    -o-animation: fadein 2s; /* Opera < 12.1 */
+       animation: fadein 2s;
 }
 
 .App-link {
@@ -32,7 +42,7 @@
   display: flex;
   height: 100vh;
   flex-direction: column;
-  justify-content: space-evenly;
+  justify-content: flex-start;
   align-items: center;
   width: 100vw;
 }
@@ -51,5 +61,49 @@
   }
   to {
     transform: rotate(360deg);
+  }
+}
+
+/* https://stackoverflow.com/questions/11679567/using-css-for-a-fade-in-effect-on-page-load */
+.start-button {
+  -webkit-animation: fadein 1s; /* Safari, Chrome and Opera > 12.1 */
+  -moz-animation: fadein 1s; /* Firefox < 16 */
+   -ms-animation: fadein 1s; /* Internet Explorer */
+    -o-animation: fadein 1s; /* Opera < 12.1 */
+       animation: fadein 1s;
+}
+
+@keyframes fadein {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.countdown {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  font-size: 1000px;
+  -webkit-animation: implode infinite;
+  -moz-animation: implode infinite;
+   -ms-animation: implode infinite;
+    -o-animation: implode infinite;
+       animation: implode infinite;
+  animation-duration: 1s;
+  animation-timing-function: cubic-bezier(0.4, 1.3, 0.8, 0.5)
+}
+
+
+@keyframes implode {
+  from {
+    transform: scale(1);
+  }
+  to {
+    transform: scale(0.001);
   }
 }

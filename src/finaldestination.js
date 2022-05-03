@@ -6,13 +6,16 @@ import "./App.css"
 function FinalDestination(props) {
     const title = "🅱️est 🅱️aker"
 
-    const questionsAndAnswers = props.qs.map((q, idx) => {
+    var questionsAndAnswers = Object.keys(props.qs).map((idx, indx) => {
         return {
-            question: q,
-            answer: props.as[idx],
+            question: props.qs[Object.keys(props.qs)[indx]],
+            answer: props.as[Object.keys(props.as)[indx]],
             label: idx
         }
     });
+
+    // get rid of the count property
+    questionsAndAnswers = questionsAndAnswers.slice(0, -1)
 
     function displayTest() {
         return questionsAndAnswers.map((item, idx) => {
@@ -29,9 +32,9 @@ function FinalDestination(props) {
     }
 
     return (
-        <div className="Hpage">
-            <h1 style={{fontSize: 72, marginBottom: "0.01em"}}>{title}</h1>
-            <h2 style={{fontSize: 36, marginBottom: "0.2em"}}>Here's your test.</h2>
+        <div className="Hpage" style={{justifyContent: "flex-start"}}>
+            <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{title}</h1>
+            <h2 style={{fontSize: 36, marginBottom: "0.2em"}}>Here's your test:</h2>
             <ol style={{maxWidth: "40vw"}}>{displayTest()}</ol>
             <Link
                 style={{textDecoration: 'none'}}
@@ -41,15 +44,16 @@ function FinalDestination(props) {
                     variant="contained" 
                     style={{
                         marginBottom: "10vh",
-                        marginTop: "6vh",
-                        minWidth: "30vw",
-                        minHeight: "10vh",
-                        fontSize: 20,
+                        marginTop: "1vh",
+                        minWidth: "20vw",
+                        minHeight: "7vh",
+                        fontSize: 18,
+                        backgroundColor: "#047AFB"
                     }}
                     onClick={() => {
-                        props.qsetter([])
-                        props.tsetter([])
-                        props.asetter([])
+                        props.qsetter({count: 0})
+                        props.tsetter({count: 0})
+                        props.asetter({count: 0})
                     }}
                 >
                     Another one!

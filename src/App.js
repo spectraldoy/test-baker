@@ -9,24 +9,34 @@ import FinalDestination from './finaldestination';
 import { Routes, Route, BrowserRouter } from 'react-router-dom';
 
 function App() {
-  const [questions, setQuestions] = useState([])
-  const [timers, setTimers] = useState([])
-  const [answers, setAnswers] = useState([])
+  const [questions, setQuestions] = useState({count: 0})
+  const [timers, setTimers] = useState({count: 0})
+  const [answers, setAnswers] = useState({count: 0})
 
   console.log("Questions:", questions)
   console.log("timers", timers)
   console.log("answers", answers)
 
   function handleNewQ(newQuestion) {
-    setQuestions([...questions, newQuestion])
+    setQuestions({...questions, [questions.count]: newQuestion, count: questions.count + 1})
   }
 
   function handleNewT(newTimer) {
-    setTimers([...timers, newTimer])
+    setTimers({...timers, [timers.count]: newTimer, count: timers.count + 1})
   }
 
   function handleNewA(newAnswer) {
-    setAnswers([...answers, newAnswer])
+    setAnswers({...answers, [answers.count]: newAnswer, count: answers.count + 1})
+  }
+
+  function deleteQ(idx) {
+    var {[idx]: _, ...rest} = questions
+    setQuestions(rest)
+  }
+
+  function deleteT(idx) {
+    var {[idx]: _, ...rest} = timers
+    setTimers(rest)
   }
 
   return (
@@ -36,6 +46,10 @@ function App() {
         <Route path="/questionmenu" element={<QuestionMenu 
           qsetter={handleNewQ}
           tsetter={handleNewT}
+          qs={questions}
+          ts={timers}
+          qpopper={deleteQ}
+          tpopper={deleteT}
         />}/>
         <Route path="/startpage" element={<StartPage />} />
         <Route path="/timercountdown" element={<Countdown />} />

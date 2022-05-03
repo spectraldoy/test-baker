@@ -41,7 +41,6 @@
 
 .menu {
   display: flex;
-  height: 100vh;
   flex-direction: column;
   justify-content: flex-start;
   align-items: center;
@@ -54,6 +53,13 @@
   justify-content: center;
   align-items: center;
   width: 100vw;
+}
+
+.question {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
 }
 
 @keyframes App-logo-spin {

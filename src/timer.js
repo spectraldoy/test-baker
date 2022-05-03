@@ -5,6 +5,8 @@ import { useNavigate } from "react-router-dom";
 import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
 // TODO: pause button in timer
+// TODO: ability to see and edit questions on the same page before starting the exam
+// TODO: Time taken after exam done
 
 function min(a, b) {
     return (a < b) ? a : b
@@ -13,23 +15,26 @@ function min(a, b) {
 function TimerDisplay(props) {
     const title = "🅱️est 🅱️aker"
     const navigate = useNavigate()
-    const n = props.qs.length
+
+    // gotta find the first i
+    var is = Object.keys(props.qs).sort().slice(0, -1) // get rid of the "count" at the end
+    const n = is.length
     const [i, setI] = useState(0);
     var curAns = ""
     // for some reason this needs to be expiryTimeStamp
     let expiryTimestamp = new Date();
-    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[i] * 60);
+    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[i]] * 60);
     const {
         seconds,
         minutes,
-        hours,
-        start,
+        //hours,
+        //start,
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value) });
 
     function answerQuestion(a) {
         expiryTimestamp = new Date()
-        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[min(i + 1, n - 1)] * 60);
+        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[min(i + 1, n - 1)]] * 60);
         // this delay causes display problems
         setTimeout(() => restart(expiryTimestamp, true), 0)
 
@@ -49,7 +54,7 @@ function TimerDisplay(props) {
     }
 
     function displayQuestion() {
-        var question = props.qs[i]
+        var question = props.qs[is[i]]
 
         return (
             <h2 style={{fontSize: 36, maxWidth: "65vw",}}>{i + 1}. {question}</h2>
@@ -89,7 +94,7 @@ function TimerDisplay(props) {
                     </OutlinedInput>
                 </FormControl>
                 <div className="buttons" style={{margin: "1em"}}>
-                    <Button variant='contained' type='submit' style={{margin: "10px"}}>
+                    <Button variant='contained' type='submit' style={{margin: "10px", backgroundColor: "#047AFB"}}>
                         Submit Answer
                     </Button>
                 </div>

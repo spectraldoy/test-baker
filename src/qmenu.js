@@ -6,9 +6,6 @@ import { Paper, Button, FormControl, InputLabel, Input, Stack, IconButton } from
 import RemoveIcon from '@mui/icons-material/Remove';
 import { styled } from '@mui/material/styles';
 
-// TODO: Questions as an obj {i: quesiton}
-// TODO: ability of users to add and delete questions and see all of them all at once
-
 // https://mui.com/material-ui/react-stack/
 const Item1 = styled(Paper)(({ theme }) => ({
   backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#2B2D42',

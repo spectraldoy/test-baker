@@ -4,8 +4,6 @@ import { useTimer } from 'react-timer-hook';
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
-// TODO: pause button in timer
-// TODO: ability to see and edit questions on the same page before starting the exam
 // TODO: Time taken after exam done
 
 function min(a, b) {
@@ -27,7 +25,7 @@ function TimerDisplay(props) {
     const {
         seconds,
         minutes,
-        //hours,
+        hours,
         //start,
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value) });
@@ -76,7 +74,7 @@ function TimerDisplay(props) {
                 fontSize: 160,
                 marginTop: "-1vh",
                 marginBottom: "-1vh",
-            }}>{minutes}:{formatTime(seconds)}</h1>
+            }}>{(hours === 0) ? null : hours + ":"}{(hours === 0) ? minutes : formatTime(minutes)}:{formatTime(seconds)}</h1>
             {displayQuestion()}
             <form
                 onSubmit={handleSubmit}
@@ -94,7 +92,7 @@ function TimerDisplay(props) {
                     </OutlinedInput>
                 </FormControl>
                 <div className="buttons" style={{margin: "1em"}}>
-                    <Button variant='contained' type='submit' style={{margin: "10px", backgroundColor: "#047AFB"}}>
+                    <Button variant='outlined' type='submit' style={{margin: "10px", color: "#047AFB"}}>
                         Submit Answer
                     </Button>
                 </div>

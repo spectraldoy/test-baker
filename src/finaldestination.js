@@ -41,14 +41,14 @@ function FinalDestination(props) {
                 to="/"
             >
                 <Button
-                    variant="contained" 
+                    variant="outlined" 
                     style={{
                         marginBottom: "10vh",
                         marginTop: "1vh",
                         minWidth: "20vw",
                         minHeight: "7vh",
                         fontSize: 18,
-                        backgroundColor: "#047AFB"
+                        color: "#047AFB"
                     }}
                     onClick={() => {
                         props.qsetter({count: 0})

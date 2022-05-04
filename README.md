@@ -11,13 +11,25 @@ cd test-taker
 npm install
 ```
 
+## Building the app
+
+Now that you have everything installed, you need to build it. To do that, all you need is run the following from the `test-taker` directory:
+```sh
+npm run build
+```
+This will create a `build` directory within the project containing an optimized production build of the app. If you're on Windows you'll probably need Git bash or another Unix-like Terminal to do this.
+
 ## Running the app
 
-Now that you have everything installed, all you need to do to run the app is to run the following from the `test-taker` directory:
+Now that you have the optimized production build, you're ready to run the app. First, install `serve` if needed:
 ```sh
-npm start
+npm install -g serve
 ```
-If you're on Windows you'll probably need Git bash or another Unix-like Terminal to do this.
+Then, serve the app.
+```sh
+serve -s build
+```
+This should copy the address where the app is being served to your clipboard, which you can just paste into your browser. And thusly, you're running the app. 
 
 ### Acknowledgements
 

@@ -3,6 +3,8 @@ import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./App.css"
 
+// TODO: offer consulting services page at end of the app
+
 function FinalDestination(props) {
     const title = "🅱️est 🅱️aker"
 

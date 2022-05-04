@@ -14,21 +14,20 @@ const Item1 = styled(Paper)(({ theme }) => ({
   padding: theme.spacing(1),
   margin: theme.spacing(0.5),
   textAlign: 'center',
-  color: theme.palette.mode === 'dark' ? theme.palette.secondary : "white",
+  color: "white",
   width: "40vw",
-  variant: "outlined"
 }));
 
 const Item2 = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#157A6E',
+    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#157A6E',
     ...theme.typography.body2,
     elevation: -10,
     padding: theme.spacing(1),
     margin: theme.spacing(0.5),
     textAlign: 'center',
-    color: theme.palette.mode === 'dark' ? theme.palette.secondary : "white",
+    color: "white",
+    backgroundColor: "#157A6E",
     width: "10vw",
-    variant: "outlined"
 }));
 
 const NIconButton = styled(IconButton)(({ theme }) => ({
@@ -82,10 +81,10 @@ function QuestionMenu(props) {
             } else 
             return (
                 <div className="question" key={index} id={"question_" + index}>
-                    <Item1>
+                    <Item1 elevation={0}>
                         {props.qs[index]}
                     </Item1>
-                    <Item2>
+                    <Item2 elevation={0}>
                         {displayMinSec(props.ts[index])}
                     </Item2>
                     <NIconButton
@@ -104,7 +103,8 @@ function QuestionMenu(props) {
 
     return (
         <div className="Hpage" style={{justifyContent: "flex-start"}}>
-            <h1 style={{fontSize: 72}}>{title}</h1>
+            <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{title}</h1>
+            <h2 style={{fontSize: 36, marginBottom: "2em", marginTop: "0.2em"}}>Make your test.</h2>
             <form
                 onSubmit={handleSubmit}
                 className="menu"
@@ -130,14 +130,14 @@ function QuestionMenu(props) {
                     </Input>
                 </FormControl>
                 <div className="buttons" style={{margin: "1.5em"}}>
-                    <Button variant='contained' type='submit' style={{margin: "10px", backgroundColor: "#047AFB"}}>
+                    <Button variant='outlined' type='submit' style={{margin: "10px", color: "#047AFB"}}>
                         Add question
                     </Button>
                     <Link
                         style={{textDecoration: 'none'}}
                         to="/startpage"
                     >
-                        <Button variant='contained' style={{margin: "10px", backgroundColor: "#047AFB"}}>
+                        <Button variant='outlined' style={{margin: "10px", color: "#047AFB"}}>
                             Done!
                         </Button>
                     </Link>

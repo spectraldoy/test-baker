@@ -4,8 +4,6 @@ import { useTimer } from 'react-timer-hook';
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
-// TODO: Time taken after exam done
-
 function min(a, b) {
     return (a < b) ? a : b
 }

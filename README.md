@@ -1,5 +1,5 @@
 # test-taker
-A small web app for creating and taking timed tests.
+A small web app for making and taking timed tests.
 
 ## Setting up
 

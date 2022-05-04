@@ -14,9 +14,19 @@ function FinalDestination(props) {
         }
     }
 
+    function displayLimit(time) {
+        // time is in minutes
+        var hours = Math.floor(time / 60)
+        var minutes = Math.floor(time - 60 * hours)
+        var seconds = Math.floor((time - (60 * hours + minutes)) * 60)
+
+        return <>{(hours === 0) ? null : hours + ":"}{(hours === 0) ? minutes : formatTime(minutes)}:{formatTime(seconds)}</>
+    }
+
     var questionsAndAnswers = Object.keys(props.qs).map((idx, indx) => {
         return {
             question: props.qs[Object.keys(props.qs)[indx]],
+            timer: props.ts[Object.keys(props.qs)[indx]],
             answer: props.as[Object.keys(props.as)[indx]].answer,
             hours: props.as[Object.keys(props.as)[indx]].hours,
             mins: props.as[Object.keys(props.as)[indx]].minutes,
@@ -34,8 +44,8 @@ function FinalDestination(props) {
                 <h2>
                     <li key={item.label}>
                         {item.question}
-                        Time taken: {(item.hours === 0) ? null : item.hours + ":"}{(item.hours === 0) ? item.mins : formatTime(item.mins)}:{formatTime(item.secs)}
-                        <p style={{color: "blue"}}>{item.answer}</p>
+                        <p style={{color: "#DA3E52"}}>Time taken: {(item.hours === 0) ? null : item.hours + ":"}{(item.hours === 0) ? item.mins : formatTime(item.mins)}:{formatTime(item.secs)} / {displayLimit(item.timer)}</p>
+                        <p style={{color: "#047AFB"}}>{item.answer}</p>
                         <br></br>
                     </li>
                 </h2>

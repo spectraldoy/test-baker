@@ -39,6 +39,18 @@ function App() {
     setTimers(rest)
   }
 
+  function clearQuestions(newQuestions) {
+    setQuestions(newQuestions)
+  }
+
+  function clearTimers(newTimers) {
+    setTimers(newTimers)
+  }
+  
+  function clearAnswers(newAnswers) {
+    setAnswers(newAnswers)
+  }
+
   return (
     <BrowserRouter>
       <Routes>
@@ -61,9 +73,10 @@ function App() {
         <Route path="/finaldestination" element={<FinalDestination 
           qs={questions}
           as={answers}
-          qsetter={setQuestions}
-          tsetter={setTimers}
-          asetter={setAnswers}
+          ts={timers}
+          qsetter={clearQuestions}
+          tsetter={clearTimers}
+          asetter={clearAnswers}
         />}/>
       </Routes>
     </BrowserRouter>

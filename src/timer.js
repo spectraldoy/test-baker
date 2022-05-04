@@ -20,8 +20,10 @@ function TimerDisplay(props) {
     const [i, setI] = useState(0);
     var curAns = ""
     // for some reason this needs to be expiryTimeStamp
+    let now_ = new Date().getTime()
+    let curTime = new Date()
     let expiryTimestamp = new Date();
-    expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[i]] * 60);
+    expiryTimestamp.setTime(expiryTimestamp.getTime() + props.ts[is[i]] * 60 * 1000); // min to ms
     const {
         seconds,
         minutes,
@@ -31,13 +33,29 @@ function TimerDisplay(props) {
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value) });
 
     function answerQuestion(a) {
+        now_ = new Date().getTime()
+        curTime = new Date()
+        curTime.setTime(expiryTimestamp.getTime() - props.ts[is[i]] * 60 * 1000)
+        var distance = now_ - curTime.getTime();
+        console.log(curTime.getTime(), now_, distance)
+        // Time calculations for hours, minutes and seconds
+        // https://www.w3schools.com/howto/howto_js_countdown.asp
+        var hoursTimed = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minsTimed = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var secsTimed = Math.floor((distance % (1000 * 60)) / 1000);
+
         expiryTimestamp = new Date()
         expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[min(i + 1, n - 1)]] * 60);
         // this delay causes display problems
         setTimeout(() => restart(expiryTimestamp, true), 0)
 
         document.getElementById("answers").value = ""
-        props.asetter(a)
+        props.asetter({
+            answer: a,
+            hours: hoursTimed,
+            minutes: minsTimed,
+            seconds: secsTimed
+        })
         setI(i + 1);
         
         if (i >= n - 1) {

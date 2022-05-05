@@ -114,7 +114,7 @@ function QuestionMenu(props) {
                         id="questions"
                         type="text"
                         onChange={ (e) => document.getElementById("questions").value = e.target.value}
-                        style={{width: "31vw"}}
+                        style={{width: "31vw", minWidth: "30ch"}}
                     >
                     </Input>
                 </FormControl>
@@ -124,7 +124,7 @@ function QuestionMenu(props) {
                         id="timers"
                         type="text"
                         onChange={ (e) => document.getElementById("timers").value = e.target.value}
-                        style={{width: "31vw"}}
+                        style={{width: "31vw", minWidth: "30ch"}}
                     >
                     </Input>
                 </FormControl>

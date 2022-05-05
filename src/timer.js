@@ -83,7 +83,7 @@ function TimerDisplay(props) {
 
     return (
         <div className="App">
-            <h1 style={{fontSize: 72, maxWidth: "40vw"}}>{props.title}</h1>
+            <h1 style={{fontSize: 72}}>{props.title}</h1>
             <h1 style={{
                 fontSize: 160,
                 marginTop: "-1vh",
@@ -101,7 +101,7 @@ function TimerDisplay(props) {
                         type="text"
                         label="Answer"
                         onChange={ (e) => document.getElementById("answers").value = e.target.value}
-                        style={{width: "31vw"}}
+                        style={{width: "31vw", minWidth: "30ch"}}
                     >
                     </OutlinedInput>
                 </FormControl>

@@ -10,12 +10,10 @@ function getDelayFromExpiryTimestamp(expiryTimestamp) {
     return null;
   }
 
-  const seconds = Time.getSecondsFromExpiry(expiryTimestamp);
-  const extraMilliSeconds = Math.floor((seconds - Math.floor(seconds)) * 1000);
-  return extraMilliSeconds > 0 ? extraMilliSeconds : DEFAULT_DELAY;
+  return DEFAULT_DELAY;
 }
 
-export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart = true }) {
+export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart = true, expiryCondition = (x) => (x <= 0) }) {
   const [expiryTimestamp, setExpiryTimestamp] = useState(expiry);
   const [seconds, setSeconds] = useState(Time.getSecondsFromExpiry(expiryTimestamp));
   const [isRunning, setIsRunning] = useState(autoStart);
@@ -24,8 +22,8 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
 
   function handleExpire() {
     Validate.onExpire(onExpire) && onExpire();
-    // setIsRunning(false);
-    // setDelay(null);
+    setIsRunning(false);
+    setDelay(null);
   }
 
   function pause() {
@@ -59,9 +57,10 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
     if (delay !== DEFAULT_DELAY) {
       setDelay(DEFAULT_DELAY);
     }
+    
     const secondsValue = Time.getSecondsFromExpiry(expiryTimestamp);
     setSeconds(secondsValue);
-    if (secondsValue <= 0) {
+    if (expiryCondition(secondsValue)) {
       handleExpire();
     }
   }, isRunning ? delay : null);

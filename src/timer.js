@@ -28,18 +28,12 @@ function TimerDisplay(props) {
         //start,
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => {
-        if (props.mode === "strict") {
-            answerQuestion(document.getElementById("answers").value)
-        } else {
-            // allow negative
-
-        }
-    }});
+        answerQuestion(document.getElementById("answers").value)
+    }, expiryCondition: (x) => false});
 
     function answerQuestion(a) {
         let now_ = new Date().getTime()
         var distance = now_ - curTime.getTime();
-        console.log(curTime.getTime(), now_, distance)
         // Time calculations for hours, minutes and seconds
         // https://www.w3schools.com/howto/howto_js_countdown.asp
         var hoursTimed = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));

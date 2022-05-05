@@ -17,11 +17,8 @@ export default class Time {
   static getSecondsFromExpiry(expiry, shouldRound) {
     const now = new Date().getTime();
     const milliSecondsDistance = expiry - now;
-    if (milliSecondsDistance > 0) {
-      const val = milliSecondsDistance / 1000;
-      return shouldRound ? Math.round(val) : val;
-    }
-    return 0;
+    const val = milliSecondsDistance / 1000;
+    return shouldRound ? Math.round(val) : val;
   }
 
   static getSecondsFromPrevTime(prevTime, shouldRound) {

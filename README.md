@@ -6,14 +6,14 @@ A small web app for making and taking timed tests.
 First you have to install Node, which you can download [here](https://nodejs.org/en/download/). Once you have Node, you will also have `npm` installed, which is required to run this React app. Now, clone this repository, `cd` into it if necessary, and install the required packages as follows:
 
 ```sh
-git clone https://github.com/spectraldoy/best-taker
+git clone https://github.com/spectraldoy/test-baker
 cd test-taker
 npm install
 ```
 
 ## Building the app
 
-Now that you have everything installed, you need to build it. To do that, all you need is run the following from the `test-taker` directory:
+Now that you have everything installed, you need to build it. To do that, all you need is run the following from the `test-baker` directory:
 ```sh
 npm run build
 ```

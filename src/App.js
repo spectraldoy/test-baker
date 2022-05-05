@@ -6,7 +6,7 @@ import StartPage from './abouttostart';
 import Countdown from './countdown';
 import TimerDisplay from './timer';
 import FinalDestination from './finaldestination';
-import { Routes, Route, BrowserRouter } from 'react-router-dom';
+import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
 
 function App() {
   const title = "Test \u{1F171}aker"
@@ -82,6 +82,7 @@ function App() {
           asetter={clearAnswers}
           title={title}
         />}/>
+        <Route path="*" element={<Navigate to="/"></Navigate>} />
       </Routes>
     </BrowserRouter>
   );

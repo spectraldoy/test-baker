@@ -1,5 +1,5 @@
 # test-baker
-A small web app for making and taking timed tests.
+A [small web app](https://www.testbaker.com/) for making and taking timed tests.
 
 ## Setting up
 

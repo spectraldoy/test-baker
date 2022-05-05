@@ -39,8 +39,6 @@ const NIconButton = styled(IconButton)(({ theme }) => ({
 
 
 function QuestionMenu(props) {
-    const title = "🅱️est 🅱️aker"
-
     // may not persist
     var curQ = ""
     var curT = ""
@@ -103,7 +101,7 @@ function QuestionMenu(props) {
 
     return (
         <div className="Hpage" style={{justifyContent: "flex-start"}}>
-            <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{title}</h1>
+            <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{props.title}</h1>
             <h2 style={{fontSize: 36, marginBottom: "2em", marginTop: "0.2em"}}>Make your test.</h2>
             <form
                 onSubmit={handleSubmit}

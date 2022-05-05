@@ -6,8 +6,6 @@ import "./App.css"
 // TODO: offer consulting services page at end of the app
 
 function FinalDestination(props) {
-    const title = "🅱️est 🅱️aker"
-
     function formatTime(t) {
         if (t < 10) {
             return "0" + t
@@ -57,7 +55,7 @@ function FinalDestination(props) {
 
     return (
         <div className="Hpage" style={{justifyContent: "flex-start"}}>
-            <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{title}</h1>
+            <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{props.title}</h1>
             <h2 style={{fontSize: 36, marginBottom: "0.2em"}}>Here's your test:</h2>
             <ol style={{maxWidth: "40vw"}}>{displayTest()}</ol>
             <Link

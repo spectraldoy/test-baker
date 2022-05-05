@@ -9,7 +9,6 @@ function min(a, b) {
 }
 
 function TimerDisplay(props) {
-    const title = "🅱️est 🅱️aker"
     const navigate = useNavigate()
 
     // gotta find the first i
@@ -84,7 +83,7 @@ function TimerDisplay(props) {
 
     return (
         <div className="App">
-            <h1 style={{fontSize: 72, maxWidth: "40vw"}}>{title}</h1>
+            <h1 style={{fontSize: 72, maxWidth: "40vw"}}>{props.title}</h1>
             <h1 style={{
                 fontSize: 160,
                 marginTop: "-1vh",

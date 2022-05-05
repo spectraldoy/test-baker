@@ -101,7 +101,7 @@ function TimerDisplay(props) {
                         type="text"
                         label="Answer"
                         onChange={ (e) => document.getElementById("answers").value = e.target.value}
-                        style={{width: "50ch"}}
+                        style={{width: "31vw"}}
                     >
                     </OutlinedInput>
                 </FormControl>

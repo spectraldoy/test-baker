@@ -28,6 +28,7 @@ const Item2 = styled(Paper)(({ theme }) => ({
     color: "white",
     backgroundColor: "#157A6E",
     width: "10vw",
+    minWidth: "43px",
 }));
 
 const NIconButton = styled(IconButton)(({ theme }) => ({
@@ -113,7 +114,7 @@ function QuestionMenu(props) {
                         id="questions"
                         type="text"
                         onChange={ (e) => document.getElementById("questions").value = e.target.value}
-                        style={{width: "50ch"}}
+                        style={{width: "31vw"}}
                     >
                     </Input>
                 </FormControl>
@@ -123,7 +124,7 @@ function QuestionMenu(props) {
                         id="timers"
                         type="text"
                         onChange={ (e) => document.getElementById("timers").value = e.target.value}
-                        style={{width: "50ch"}}
+                        style={{width: "31vw"}}
                     >
                     </Input>
                 </FormControl>

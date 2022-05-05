@@ -8,14 +8,14 @@ import { styled } from '@mui/material/styles';
 
 // https://mui.com/material-ui/react-stack/
 const Item1 = styled(Paper)(({ theme }) => ({
-  backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#2B2D42',
-  ...theme.typography.body2,
-  elevation: 0,
-  padding: theme.spacing(1),
-  margin: theme.spacing(0.5),
-  textAlign: 'center',
-  color: "white",
-  width: "40vw",
+    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#2B2D42',
+    ...theme.typography.body2,
+    elevation: 0,
+    padding: theme.spacing(1),
+    margin: theme.spacing(0.5),
+    textAlign: 'center',
+    color: "white",
+    width: "40vw",
 }));
 
 const Item2 = styled(Paper)(({ theme }) => ({
@@ -41,13 +41,10 @@ const NIconButton = styled(IconButton)(({ theme }) => ({
 
 function QuestionMenu(props) {
     // may not persist
-    var curQ = ""
-    var curT = ""
-
     function handleSubmit(e) {
         e.preventDefault()
-        curQ = e.target[0].value
-        curT = e.target[1].value
+        var curQ = e.target[0].value
+        var curT = e.target[1].value
 
         if (curQ === "") {
             alert("Empty question")
@@ -57,10 +54,6 @@ function QuestionMenu(props) {
             // for some reason here this will rerender
             props.qsetter(curQ)
             props.tsetter(parseFloat(curT))
-
-            // clear the question and timer
-            curQ = ""
-            curT = ""
 
             document.getElementById("questions").value = ""
             document.getElementById("timers").value = ""

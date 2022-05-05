@@ -14,6 +14,11 @@ function App() {
   const [timers, setTimers] = useState({count: 0})
   const [answers, setAnswers] = useState({count: 0})
 
+  // strict mode: timer skips once it expires, time doesn't roll over
+  // mercy mode: timer goes negative, time rolls over
+
+  const [mode, setMode] = useState("mercy")
+
   console.log("Questions:", questions)
   console.log("timers", timers)
   console.log("answers", answers)
@@ -72,6 +77,7 @@ function App() {
           ts={timers}
           asetter={handleNewA}
           title={title}
+          mode={mode}
         />} />
         <Route path="/finaldestination" element={<FinalDestination 
           qs={questions}

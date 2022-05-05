@@ -1,6 +1,6 @@
 import "./App.css"
 import React, { useState } from "react"
-import { useTimer } from 'react-timer-hook';
+import useTimer from './useTimer.js';
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
 
@@ -27,7 +27,14 @@ function TimerDisplay(props) {
         hours,
         //start,
         restart,
-    } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value) });
+    } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => {
+        if (props.mode === "strict") {
+            answerQuestion(document.getElementById("answers").value)
+        } else {
+            // allow negative
+
+        }
+    }});
 
     function answerQuestion(a) {
         let now_ = new Date().getTime()

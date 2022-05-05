@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 import "./App.css"
 
 // TODO: offer consulting services page at end of the app
+// TODO: server and test persistence
 
 function FinalDestination(props) {
     function formatTime(t) {

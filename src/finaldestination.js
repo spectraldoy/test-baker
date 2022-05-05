@@ -6,20 +6,29 @@ import "./App.css"
 // TODO: offer consulting services page at end of the app
 // TODO: server and test persistence
 
+  
+function floor(val) {
+    return Math.sign(val) * Math.floor(Math.abs(val))
+}
+  
+
 function FinalDestination(props) {
     function formatTime(t) {
-        if (t < 10) {
+        if (t <= -10 || t >= 10) {
+            return t
+        }
+        else if (t < 10 && t >= 0) {
             return "0" + t
         } else {
-            return t
+            return Math.abs(t)
         }
     }
 
     function displayLimit(time) {
         // time is in minutes
-        var hours = Math.floor(time / 60)
-        var minutes = Math.floor(time - 60 * hours)
-        var seconds = Math.floor((time - (60 * hours + minutes)) * 60)
+        var hours = floor(time / 60)
+        var minutes = floor(time - 60 * hours)
+        var seconds = floor((time - (60 * hours + minutes)) * 60)
 
         return <>{(hours === 0) ? null : hours + ":"}{(hours === 0) ? minutes : formatTime(minutes)}:{formatTime(seconds)}</>
     }

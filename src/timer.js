@@ -8,6 +8,10 @@ function min(a, b) {
     return (a < b) ? a : b
 }
 
+function floor(val) {
+    return Math.sign(val) * Math.floor(Math.abs(val))
+}
+
 function TimerDisplay(props) {
     const navigate = useNavigate()
 
@@ -27,22 +31,25 @@ function TimerDisplay(props) {
         hours,
         //start,
         restart,
-    } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => {
-        answerQuestion(document.getElementById("answers").value)
-    }, expiryCondition: (x) => false});
-
+    } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value),
+    expiryCondition: (props.mode === "strict") ? (x) => (x <= 0) : (x) => false });
+    // console.log(seconds)
     function answerQuestion(a) {
         let now_ = new Date().getTime()
         var distance = now_ - curTime.getTime();
         // Time calculations for hours, minutes and seconds
         // https://www.w3schools.com/howto/howto_js_countdown.asp
-        var hoursTimed = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minsTimed = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var secsTimed = Math.floor((distance % (1000 * 60)) / 1000);
+        var hoursTimed = floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        var minsTimed = floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        var secsTimed = floor((distance % (1000 * 60)) / 1000);
 
         setCurTime(new Date())
         expiryTimestamp = new Date()
-        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[min(i + 1, n - 1)]] * 60);
+        // TODO: time rolling over
+        // var adderDist = (props.mode === "strict") ? 0 : (expiryTimestamp.getTime() - now_) * 1000
+
+        // here just add time if mode is not strict
+        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[min(i + 1, n - 1)]] * 60 )
         // this delay causes display problems
         setTimeout(() => restart(expiryTimestamp, true), 0)
 
@@ -75,12 +82,14 @@ function TimerDisplay(props) {
     }
 
     function formatTime(t) {
-        if (t < 10) {
-            return "0" + t
-        } else {
+        if (t >= 10) {
             return t
         }
+        else {
+            return "0" + t
+        }
     }
+    // >{(hours === 0) ? null : hours + ":"}{(hours === 0) ? ((minutes === 0 && seconds < 0) ? "-0" : minutes) : formatTime(minutes)}:{formatTime(seconds)}</h1>}</>
 
     return (
         <div className="App">
@@ -89,7 +98,8 @@ function TimerDisplay(props) {
                 fontSize: 160,
                 marginTop: "-1vh",
                 marginBottom: "-1vh",
-            }}>{(hours === 0) ? null : hours + ":"}{(hours === 0) ? minutes : formatTime(minutes)}:{formatTime(seconds)}</h1>
+                color: (hours < 0 || minutes < 0 || seconds < 0) ? "#DA3E52" : "black"
+            }}>{(hours === 0) ? null : hours + ":"}{(hours === 0) ? (seconds < 0) ? "-" + Math.abs(minutes) : minutes : formatTime(Math.abs(minutes))}:{formatTime(Math.abs(seconds))}</h1>
             {displayQuestion()}
             <form
                 onSubmit={handleSubmit}

@@ -46,9 +46,9 @@ function QuestionMenu(props) {
         var curQ = e.target[0].value
         var curT = e.target[1].value
 
-        if (curQ === "") {
-            alert("Empty question")
-        } else if (curT === "" || isNaN(parseFloat(curT))) {
+        if (curQ === "" && curT === "") {
+            alert("Input cannot be void")
+        } else if (curT === "" || isNaN(parseFloat(curT)) || parseFloat(curT) < 0) {
             alert("Invalid timer for this question")
         } else {
             // for some reason here this will rerender

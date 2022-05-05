@@ -1,10 +1,19 @@
+function round(val) {
+  // rounding that accounts for negative numbers
+  return Math.sign(val) * Math.round(Math.abs(val))
+}
+
+function floor(val) {
+  return Math.sign(val) * Math.floor(Math.abs(val))
+}
+
 export default class Time {
   static getTimeFromSeconds(secs) {
-    const totalSeconds = Math.ceil(secs);
-    const days = Math.floor(totalSeconds / (60 * 60 * 24));
-    const hours = Math.floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
-    const minutes = Math.floor((totalSeconds % (60 * 60)) / 60);
-    const seconds = Math.floor(totalSeconds % 60);
+    const totalSeconds = round(secs)
+    const days = floor(totalSeconds / (60 * 60 * 24));
+    const hours = floor((totalSeconds % (60 * 60 * 24)) / (60 * 60));
+    const minutes = floor((totalSeconds % (60 * 60)) / 60);
+    const seconds = floor(totalSeconds % 60);
 
     return {
       seconds,
@@ -18,7 +27,7 @@ export default class Time {
     const now = new Date().getTime();
     const milliSecondsDistance = expiry - now;
     const val = milliSecondsDistance / 1000;
-    return shouldRound ? Math.round(val) : val;
+    return shouldRound ? round(val) : val;
   }
 
   static getSecondsFromPrevTime(prevTime, shouldRound) {
@@ -26,7 +35,7 @@ export default class Time {
     const milliSecondsDistance = now - prevTime;
     if (milliSecondsDistance > 0) {
       const val = milliSecondsDistance / 1000;
-      return shouldRound ? Math.round(val) : val;
+      return shouldRound ? round(val) : val;
     }
     return 0;
   }

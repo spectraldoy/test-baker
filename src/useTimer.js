@@ -64,7 +64,6 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
       handleExpire();
     }
   }, isRunning ? delay : null);
-
   return {
     ...Time.getTimeFromSeconds(seconds), start, pause, resume, restart, isRunning,
   };

@@ -16,8 +16,7 @@ function App() {
 
   // strict mode: timer skips once it expires, time doesn't roll over
   // mercy mode: timer goes negative, time rolls over
-
-  const [mode, setMode] = useState("mercy")
+  const [mode, setMode] = useState("strict")
 
   console.log("Questions:", questions)
   console.log("timers", timers)
@@ -69,6 +68,7 @@ function App() {
           qpopper={deleteQ}
           tpopper={deleteT}
           title={title}
+          modesetter={setMode}
         />}/>
         <Route path="/startpage" element={<StartPage title={title}/>} />
         <Route path="/timercountdown" element={<Countdown />} />

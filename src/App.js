@@ -42,14 +42,15 @@ function App() {
     setMode(newMode)
   }
 
-  function deleteQ(idx) {
-    var {[idx]: _, ...rest} = questions
-    setQuestions(rest)
-  }
-
-  function deleteT(idx) {
-    var {[idx]: _, ...rest} = timers
-    setTimers(rest)
+  function deleteItem(idx) {
+    var {[idx]: _, ...restQ} = questions
+    var {[idx]: __, ...restT} = timers
+    setQuestions(restQ)
+    setTimers(restT)
+    if (idx in answers) {
+      var {[idx]: ___, ...restA} = answers
+      setAnswers(restA)
+    }
   }
 
   function clearQuestions(newQuestions) {
@@ -73,8 +74,7 @@ function App() {
           tsetter={handleNewT}
           qs={questions}
           ts={timers}
-          qpopper={deleteQ}
-          tpopper={deleteT}
+          itempopper={deleteItem}
           title={title}
           mode={mode}
           modesetter={handleNewMode}

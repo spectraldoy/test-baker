@@ -1,12 +1,22 @@
 import React from 'react';
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
-import { Paper, Button, FormControl, InputLabel, Input, Stack, IconButton, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
+import {
+    Paper, Button, FormControl, InputLabel, Input, 
+    Stack, IconButton, TextField,
+    ToggleButton, ToggleButtonGroup, Tooltip
+} from '@mui/material';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { styled } from '@mui/material/styles';
+
+// TODO: Stackable Timer subpage; StackBaker; with banner for multiple use cases
+// TODO: editable question list
+// TODO: upload scans, convert to question list, and review / edit that before taking the test
+// TODO: save questions and answers afterwards to database
+// TODO: ability to pause the Stack timer
 
 // https://mui.com/material-ui/react-stack/
 const Item1 = styled(Paper)(({ theme }) => ({
@@ -77,7 +87,7 @@ function QuestionMenu(props) {
             } else 
             return (
                 <div className="question" key={index} id={"question_" + index}>
-                    <Item1 elevation={0}>
+                    <Item1 elevation={0} value={props.qs[index]}>
                         {props.qs[index]}
                     </Item1>
                     <Item2 elevation={0}>
@@ -86,8 +96,7 @@ function QuestionMenu(props) {
                     <NIconButton
                         onClick={(e) => {
                             e.preventDefault()
-                            props.qpopper(index)
-                            props.tpopper(index)
+                            props.itempopper(index)
                         }}
                     >
                         <RemoveIcon></RemoveIcon>
@@ -108,7 +117,7 @@ function QuestionMenu(props) {
                 }}
             >
                 <ToggleButton value="skip" aria-label="skip to next question">
-                    <Tooltip title="Skip to next question when timer expires">
+                    <Tooltip title="Skip to next question when timer expires (go over time limit)">
                         <SkipNextIcon />
                     </Tooltip>
                 </ToggleButton>

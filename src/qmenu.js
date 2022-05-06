@@ -2,7 +2,7 @@ import React from 'react';
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
 import {
-    Paper, Button, FormControl, InputLabel, Input, 
+    Button, FormControl, InputLabel, Input, 
     Stack, IconButton, TextField,
     ToggleButton, ToggleButtonGroup, Tooltip
 } from '@mui/material';
@@ -10,43 +10,27 @@ import {
 import RemoveIcon from '@mui/icons-material/Remove';
 import MoreTimeIcon from '@mui/icons-material/MoreTime';
 import SkipNextIcon from '@mui/icons-material/SkipNext';
+import EditIcon from '@mui/icons-material/Edit';
+import SaveIcon from '@mui/icons-material/Save';
 import { styled } from '@mui/material/styles';
 
 // TODO: Stackable Timer subpage; StackBaker; with banner for multiple use cases
-// TODO: editable question list
 // TODO: upload scans, convert to question list, and review / edit that before taking the test
 // TODO: save questions and answers afterwards to database
 // TODO: ability to pause the Stack timer
 
-// https://mui.com/material-ui/react-stack/
-const Item1 = styled(Paper)(({ theme }) => ({
-    backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#2B2D42',
-    ...theme.typography.body2,
-    elevation: 0,
-    padding: theme.spacing(1),
-    margin: theme.spacing(0.5),
-    textAlign: 'center',
-    color: "white",
-    width: "40vw",
-}));
-
-const Item2 = styled(Paper)(({ theme }) => ({
-    // backgroundColor: theme.palette.mode === 'dark' ? '#1A2027' : '#157A6E',
-    ...theme.typography.body2,
-    elevation: -10,
-    padding: theme.spacing(1),
-    margin: theme.spacing(0.5),
-    textAlign: 'center',
-    color: "white",
-    backgroundColor: "#157A6E",
-    width: "10vw",
-    minWidth: "43px",
-}));
-
-const NIconButton = styled(IconButton)(({ theme }) => ({
-    backgroundColor: "#ACACAC",
+const NIconButtonRed = styled(IconButton)(({ theme }) => ({
+    backgroundColor: "#ffffff",//"#ACACAC",
     "&:hover": {
         backgroundColor: "#DA3E52"
+    }
+}));
+
+const NIconButtonOrange = styled(IconButton)(({ theme }) => ({
+    width: "auto",
+    backgroundColor: "#ffffff",
+    "&:hover": {
+        backgroundColor: "#3FDECC"
     }
 }));
 
@@ -54,24 +38,97 @@ const NIconButton = styled(IconButton)(({ theme }) => ({
 function QuestionMenu(props) {
     const navigate = useNavigate()
 
+    function parseMinSec(x) {
+        // assume of the form "(int)m (int)s"
+        if (/[^0-9]/g.test(x) && !/[ms]/.test(x)) {
+            return false
+        }
+
+        let y = x.split(" ") 
+        if (y.length !== 2) {
+            return false
+        }
+
+        if (y[0][y[0].length - 1] !== "m" || y[1][y[1].length - 1] !== "s") {
+            return false
+        }
+
+        let min = parseInt(y[0].slice(0, -1))
+        let sec = parseInt(y[1].slice(0, -1))
+        
+        if (isNaN(min) || (isNaN(sec) && isNaN(min)) || min < 0 || sec < 0) {
+            return false
+        }
+
+        if (isNaN(sec)) {
+            sec = 0
+        }
+
+        if (isNaN(min)) {
+            min = 0
+        }
+        return parseFloat(min) + parseFloat(sec) / 60
+    }
+
+    function _check(q, t) {
+        if (q === "" && t === "") {
+            alert("Timer cannot be void")
+            return false
+        } else if (!parseMinSec(t) && (/m|s/.test(t) || isNaN(parseFloat(t)) || parseFloat(t) < 0)) {
+            alert("Invalid timer")
+            return false
+        } else {
+            return true
+        }
+    }
+
     // may not persist
     function handleSubmit(e) {
         e.preventDefault()
+
+        if (props.editing) {
+            alert("First save everything else")
+            return
+        }
+
         var curQ = e.target[0].value
         var curT = e.target[1].value
 
-        if (curQ === "" && curT === "") {
-            alert("Input cannot be void")
-        } else if (curT === "" || isNaN(parseFloat(curT)) || parseFloat(curT) < 0) {
-            alert("Invalid timer for this question")
+        if (!_check(curQ, curT)) {
+            return
         } else {
             // for some reason here this will rerender
             props.qsetter(curQ)
-            props.tsetter(parseFloat(curT))
+            props.tsetter((/[ms]/.test(curT)) ? parseMinSec(curT) : parseFloat(curT))
 
             document.getElementById("questions").value = ""
             document.getElementById("timers").value = ""
         }
+    }
+
+    function handleSave() {
+        var newQuestions = {}
+        var newTimers = {}
+        for (const index in props.qs) {
+            if (isNaN(parseInt(index))) {
+                continue
+            } else {
+                // update qs index
+                var currentQ = document.getElementById("item_" + index).value
+                var currentT = document.getElementById("timer_" + index).value
+
+                if (!_check(currentQ, currentT)) {
+                    return
+                } else {
+                    newQuestions[index] = currentQ
+                    newTimers[index] = (/[ms]/.test(currentT)) ? parseMinSec(currentT) : parseFloat(currentT)
+                }
+            }
+        }
+        props.multiqsetter(newQuestions)
+        props.multitsetter(newTimers)
+        props.setEditing(false)
+        return 
     }
 
     function displayMinSec(minutes) {
@@ -86,21 +143,40 @@ function QuestionMenu(props) {
                 return null
             } else 
             return (
-                <div className="question" key={index} id={"question_" + index}>
-                    <Item1 elevation={0} value={props.qs[index]}>
-                        {props.qs[index]}
-                    </Item1>
-                    <Item2 elevation={0}>
-                        {displayMinSec(props.ts[index])}
-                    </Item2>
-                    <NIconButton
+                <div className="item" key={index}>
+                    <TextField
+                        disabled={!props.editing}
+                        label="Question"
+                        id={"item_" + index}
+                        defaultValue={props.qs[index]} 
+                        variant="outlined"
+                        style={{
+                            margin: "0.5em",
+                            width: "40vw"
+                        }}
+                    />
+                    <TextField
+                        disabled={!props.editing}
+                        label="Time Limit"
+                        id={"timer_" + index}
+                        defaultValue={(props.editing) ? 
+                            props.ts[index]
+                            : displayMinSec(props.ts[index])
+                        }
+                        style={{
+                            margin: "0.5em",
+                            width: "10vw", 
+                            minWidth: "43px",
+                        }}
+                    />
+                    <NIconButtonRed
                         onClick={(e) => {
                             e.preventDefault()
                             props.itempopper(index)
                         }}
                     >
                         <RemoveIcon></RemoveIcon>
-                    </NIconButton>
+                    </NIconButtonRed>
                 </div>
             );
         });
@@ -112,6 +188,7 @@ function QuestionMenu(props) {
                 value={props.mode}
                 onChange={props.modesetter}
                 aria-label="test settings"
+                size="medium"
                 style={{
                     marginTop: "0em"
                 }}
@@ -151,7 +228,7 @@ function QuestionMenu(props) {
                     </Input>
                 </FormControl>
                 <FormControl style={{margin: "1.5em"}}>
-                    <InputLabel htmlFor="timers">How much time do you have for it? (minutes)</InputLabel>
+                    <InputLabel htmlFor="timers">Set a time limit (ex: 1.2 or 1m 12s)</InputLabel>
                     <Input
                         id="timers"
                         type="text"
@@ -179,7 +256,44 @@ function QuestionMenu(props) {
                     </Button>
                 </div>
             </form>
-            {displayModeSetter()}
+            <div style={{
+                display: "flex",
+                flexDirection: "row",
+                justifyContent: "space-evenly",
+                width: "31vw",
+                minWidth: "15ch",
+            }}>
+                {displayModeSetter()}
+                <div style={{
+                    display: "flex",
+                    flexDirection: "row",
+                    justifyContent: "center"
+                }}>
+                    <NIconButtonOrange
+                        size="large"
+                        onClick={(e) => { e.preventDefault(); props.setEditing(!props.editing) }}
+                        /* kind looks weird
+                        style={{
+                            marginRight: (!props.editing) ? "48px" : 0
+                        }} */
+                    >
+                        <Tooltip title="Edit your test">
+                            <EditIcon />
+                        </Tooltip>
+                    </NIconButtonOrange>
+                    { (props.editing) ? 
+                        <NIconButtonRed size="large" onClick = {(e) => {
+                            e.preventDefault();
+                            handleSave()
+                        }}>
+                            <Tooltip title="Save">
+                                <SaveIcon />
+                            </Tooltip>
+                        </NIconButtonRed>
+                        : null
+                    }
+                </div>
+            </div>
             <br></br>
             <Stack>
                 {displayQuestions()}

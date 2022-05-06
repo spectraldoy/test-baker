@@ -7,12 +7,14 @@ import Countdown from './countdown';
 import TimerDisplay from './timer';
 import FinalDestination from './finaldestination';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
+import { AnchorRounded } from '@mui/icons-material';
 
 function App() {
   const title = "Test \u{1F171}aker"
   const [questions, setQuestions] = useState({count: 0})
   const [timers, setTimers] = useState({count: 0})
   const [answers, setAnswers] = useState({count: 0})
+  const [editing, setEditing] = useState(false)
 
   // strict mode: timer skips once it expires, time doesn't roll over
   // mercy mode: timer goes negative, time rolls over (like an actual test)
@@ -40,6 +42,14 @@ function App() {
   function handleNewMode(event, newMode) {
     event.preventDefault()
     setMode(newMode)
+  }
+
+  function handleEditQuestions(newQuestions) {
+    setQuestions({...newQuestions, count: questions.count})
+  }
+
+  function handleEditTimers(newTimers) {
+    setTimers({...newTimers, count: timers.count})
   }
 
   function deleteItem(idx) {
@@ -78,6 +88,10 @@ function App() {
           title={title}
           mode={mode}
           modesetter={handleNewMode}
+          editing={editing}
+          setEditing={setEditing}
+          multiqsetter={handleEditQuestions}
+          multitsetter={handleEditTimers}
         />}/>
         <Route path="/startpage" element={<StartPage title={title}/>} />
         <Route path="/timercountdown" element={<Countdown />} />

@@ -7,7 +7,6 @@ import Countdown from './countdown';
 import TimerDisplay from './timer';
 import FinalDestination from './finaldestination';
 import { Routes, Route, BrowserRouter, Navigate } from 'react-router-dom';
-import { AnchorRounded } from '@mui/icons-material';
 
 function App() {
   const title = "Test \u{1F171}aker"

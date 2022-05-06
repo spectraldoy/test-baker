@@ -1,6 +1,6 @@
 import React from 'react';
 import "./App.css";
-import { Link } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import { Paper, Button, FormControl, InputLabel, Input, Stack, IconButton, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
@@ -42,6 +42,8 @@ const NIconButton = styled(IconButton)(({ theme }) => ({
 
 
 function QuestionMenu(props) {
+    const navigate = useNavigate()
+
     // may not persist
     function handleSubmit(e) {
         e.preventDefault()
@@ -153,14 +155,19 @@ function QuestionMenu(props) {
                     <Button variant='outlined' type='submit' style={{margin: "10px", color: "#047AFB"}}>
                         Add question
                     </Button>
-                    <Link
-                        style={{textDecoration: 'none'}}
-                        to="/startpage"
+                    <Button
+                        variant='outlined'
+                        style={{margin: "10px", color: "#047AFB"}}
+                        onClick={() => {
+                            if (Object.keys(props.qs).length > 1) {
+                                return navigate("/startpage")
+                            } else {
+                                alert("No questions")
+                            }
+                        }}
                     >
-                        <Button variant='outlined' style={{margin: "10px", color: "#047AFB"}}>
-                            Done!
-                        </Button>
-                    </Link>
+                        Done!
+                    </Button>
                 </div>
             </form>
             {displayModeSetter()}

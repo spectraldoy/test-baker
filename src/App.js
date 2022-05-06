@@ -38,6 +38,7 @@ function App() {
   }
 
   function handleNewMode(event, newMode) {
+    event.preventDefault()
     setMode(newMode)
   }
 

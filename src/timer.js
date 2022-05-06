@@ -33,24 +33,25 @@ function TimerDisplay(props) {
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value),
     expiryCondition: (props.mode.includes("skip")) ? (x) => (x <= 0) : (x) => false });
-    // console.log(seconds)
+    console.log("curtime", curTime)
+    console.log("exptime", expiryTimestamp)
     function answerQuestion(a) {
-        let now_ = new Date()
-        var distance = now_.getTime() - curTime.getTime();
+        const now_ = new Date().getTime()
+        const distance = now_ - curTime.getTime();
+        // problem: expirytimestamp is reset every second due to this timer display rerendering
+        // so it cannot be used for accurate distamces
+        // additional problem: the time limit for questions stays the same but amount of time allotted to them may increase
+        // due to finishing quickly and time rolling over.
+        const adderDist = (props.mode.includes("roll")) ? props.ts[is[i]] * 60 * 1000 - distance: 0
         // Time calculations for hours, minutes and seconds
         // https://www.w3schools.com/howto/howto_js_countdown.asp
-        var hoursTimed = floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
-        var minsTimed = floor((distance % (1000 * 60 * 60)) / (1000 * 60));
-        var secsTimed = floor((distance % (1000 * 60)) / 1000);
+        const hoursTimed = floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+        const minsTimed = floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+        const secsTimed = floor((distance % (1000 * 60)) / 1000);
 
-        setCurTime(new Date())
         expiryTimestamp = new Date()
-        // TODO: time rolling over
-        // want expiryTime - now to be added to 
-        // var adderDist = (props.mode === "strict") ? 0 : (expiryTimestamp.getTime() - now_) * 1000
-
-        // here just add time if mode is not strict
-        expiryTimestamp.setSeconds(expiryTimestamp.getSeconds() + props.ts[is[min(i + 1, n - 1)]] * 60 )
+        console.log("now, adderdist", now_, adderDist)
+        expiryTimestamp.setTime(expiryTimestamp.getTime() + props.ts[is[min(i + 1, n - 1)]] * 60 * 1000 + adderDist)
         // this delay causes display problems
         setTimeout(() => restart(expiryTimestamp, true), 0)
 
@@ -62,6 +63,7 @@ function TimerDisplay(props) {
             seconds: secsTimed
         })
         setI(i + 1);
+        setCurTime(new Date())
         
         if (i >= n - 1) {
             return navigate("/finaldestination")

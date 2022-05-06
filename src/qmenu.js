@@ -1,9 +1,11 @@
 import React from 'react';
 import "./App.css";
 import { Link } from 'react-router-dom';
-import { Paper, Button, FormControl, InputLabel, Input, Stack, IconButton } from '@mui/material';
+import { Paper, Button, FormControl, InputLabel, Input, Stack, IconButton, ToggleButton, ToggleButtonGroup, Tooltip } from '@mui/material';
 // import DeleteIcon from '@mui/icons-material/Delete';
 import RemoveIcon from '@mui/icons-material/Remove';
+import MoreTimeIcon from '@mui/icons-material/MoreTime';
+import SkipNextIcon from '@mui/icons-material/SkipNext';
 import { styled } from '@mui/material/styles';
 
 // https://mui.com/material-ui/react-stack/
@@ -93,6 +95,32 @@ function QuestionMenu(props) {
         });
     }
 
+    function displayModeSetter() {
+        return (
+            <ToggleButtonGroup
+                value={props.mode}
+                onChange={props.modesetter}
+                aria-label="test settings"
+                style={{
+                    marginTop: "0em"
+                }}
+            >
+                <ToggleButton value="skip" aria-label="skip to next question">
+                    <Tooltip title="Skip to next question when timer expires">
+                        <SkipNextIcon />
+                    </Tooltip>
+                </ToggleButton>
+                
+                <ToggleButton value="roll" aria-label="roll time over">
+                    <Tooltip title="Carry time over (less time next question if you go over time limit)">
+                        <MoreTimeIcon />
+                    </Tooltip>
+                </ToggleButton>
+
+            </ToggleButtonGroup>
+        );
+    }
+
     return (
         <div className="Hpage" style={{justifyContent: "flex-start"}}>
             <h1 style={{fontSize: 72, marginBottom: "0.35em"}}>{props.title}</h1>
@@ -135,7 +163,7 @@ function QuestionMenu(props) {
                     </Link>
                 </div>
             </form>
-            <br></br>
+            {displayModeSetter()}
             <br></br>
             <Stack>
                 {displayQuestions()}

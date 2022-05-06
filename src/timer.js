@@ -32,11 +32,11 @@ function TimerDisplay(props) {
         //start,
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value),
-    expiryCondition: (props.mode === "strict") ? (x) => (x <= 0) : (x) => false });
+    expiryCondition: (props.mode.includes("skip")) ? (x) => (x <= 0) : (x) => false });
     // console.log(seconds)
     function answerQuestion(a) {
-        let now_ = new Date().getTime()
-        var distance = now_ - curTime.getTime();
+        let now_ = new Date()
+        var distance = now_.getTime() - curTime.getTime();
         // Time calculations for hours, minutes and seconds
         // https://www.w3schools.com/howto/howto_js_countdown.asp
         var hoursTimed = floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
@@ -46,6 +46,7 @@ function TimerDisplay(props) {
         setCurTime(new Date())
         expiryTimestamp = new Date()
         // TODO: time rolling over
+        // want expiryTime - now to be added to 
         // var adderDist = (props.mode === "strict") ? 0 : (expiryTimestamp.getTime() - now_) * 1000
 
         // here just add time if mode is not strict

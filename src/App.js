@@ -15,12 +15,15 @@ function App() {
   const [answers, setAnswers] = useState({count: 0})
 
   // strict mode: timer skips once it expires, time doesn't roll over
-  // mercy mode: timer goes negative, time rolls over
-  const [mode, setMode] = useState("strict")
+  // mercy mode: timer goes negative, time rolls over (like an actual test)
+  // could want: timer skips when expire, time rolls over
+  // could want: timer goes negative, time doesn't roll over
+  const [mode, setMode] = useState([])
 
   console.log("Questions:", questions)
   console.log("timers", timers)
   console.log("answers", answers)
+  console.log("test settings", mode)
 
   function handleNewQ(newQuestion) {
     setQuestions({...questions, [questions.count]: newQuestion, count: questions.count + 1})
@@ -32,6 +35,10 @@ function App() {
 
   function handleNewA(newAnswer) {
     setAnswers({...answers, [answers.count]: newAnswer, count: answers.count + 1})
+  }
+
+  function handleNewMode(event, newMode) {
+    setMode(newMode)
   }
 
   function deleteQ(idx) {
@@ -68,7 +75,8 @@ function App() {
           qpopper={deleteQ}
           tpopper={deleteT}
           title={title}
-          modesetter={setMode}
+          mode={mode}
+          modesetter={handleNewMode}
         />}/>
         <Route path="/startpage" element={<StartPage title={title}/>} />
         <Route path="/timercountdown" element={<Countdown />} />

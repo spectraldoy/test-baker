@@ -33,8 +33,7 @@ function TimerDisplay(props) {
         restart,
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value),
     expiryCondition: (props.mode.includes("skip")) ? (x) => (x <= 0) : (x) => false });
-    console.log("curtime", curTime)
-    console.log("exptime", expiryTimestamp)
+    
     function answerQuestion(a) {
         const now_ = new Date().getTime()
         const distance = now_ - curTime.getTime();
@@ -50,7 +49,6 @@ function TimerDisplay(props) {
         const secsTimed = floor((distance % (1000 * 60)) / 1000);
 
         expiryTimestamp = new Date()
-        console.log("now, adderdist", now_, adderDist)
         expiryTimestamp.setTime(expiryTimestamp.getTime() + props.ts[is[min(i + 1, n - 1)]] * 60 * 1000 + adderDist)
         // this delay causes display problems
         setTimeout(() => restart(expiryTimestamp, true), 0)

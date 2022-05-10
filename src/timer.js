@@ -3,6 +3,8 @@ import React, { useState } from "react"
 import useTimer from './useTimer.js';
 import { useNavigate } from "react-router-dom";
 import { Button, FormControl, InputLabel, OutlinedInput } from '@mui/material';
+import 'katex/dist/katex.min.css';
+import TeX from '@matejmazur/react-katex';
 
 function min(a, b) {
     return (a < b) ? a : b
@@ -76,6 +78,10 @@ function TimerDisplay(props) {
 
     function displayQuestion() {
         var question = props.qs[is[i]]
+
+        if (question[0] === '$' && question[question.length - 1] === '$') {
+            question = <TeX math={question.slice(1, -1)} block/>
+        }
 
         return (
             <h2 style={{fontSize: 36, maxWidth: "65vw",}}>{i + 1}. {question}</h2>

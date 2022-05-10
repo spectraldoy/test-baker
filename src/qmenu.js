@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 import "./App.css";
 import { useNavigate } from 'react-router-dom';
 import {
@@ -13,6 +13,8 @@ import SkipNextIcon from '@mui/icons-material/SkipNext';
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
 import { styled } from '@mui/material/styles';
+import 'katex/dist/katex.min.css';
+import TeX from '@matejmazur/react-katex';
 
 // TODO: Stackable Timer subpage; StackBaker; with banner for multiple use cases
 // TODO: upload scans, convert to question list, and review / edit that before taking the test
@@ -37,6 +39,7 @@ const NIconButtonOrange = styled(IconButton)(({ theme }) => ({
 
 function QuestionMenu(props) {
     const navigate = useNavigate()
+    const [math, setMath] = useState(false)
 
     function parseMinSec(x) {
         // assume of the form "(int)m (int)s"
@@ -79,6 +82,15 @@ function QuestionMenu(props) {
             return false
         } else {
             return true
+        }
+    }
+
+    function renderQuestion(q) {
+        if (q[0] === '$' && q[q.length - 1] === '$') {
+            console.log(q)
+            return <TeX math={q.slice(1, -1)} block/>
+        } else {
+            return <>{""}</>;
         }
     }
 
@@ -200,7 +212,7 @@ function QuestionMenu(props) {
                 </ToggleButton>
                 
                 <ToggleButton value="roll" aria-label="roll time over">
-                    <Tooltip title="Carry time over (less time next question if you go over time limit)">
+                    <Tooltip title="Carry time over to next question">
                         <MoreTimeIcon />
                     </Tooltip>
                 </ToggleButton>
@@ -222,10 +234,11 @@ function QuestionMenu(props) {
                     <Input
                         id="questions"
                         type="text"
-                        onChange={ (e) => document.getElementById("questions").value = e.target.value}
+                        onChange={ (e) => { document.getElementById("questions").value = e.target.value; setMath(!math)} }
                         style={{width: "31vw", minWidth: "30ch"}}
                     >
                     </Input>
+                {document.getElementById("questions") ? renderQuestion(document.getElementById("questions").value) : null}
                 </FormControl>
                 <FormControl style={{margin: "1.5em"}}>
                     <InputLabel htmlFor="timers">Set a time limit (ex: 1.2 or 1m 12s)</InputLabel>
@@ -240,19 +253,6 @@ function QuestionMenu(props) {
                 <div className="buttons" style={{margin: "1.5em"}}>
                     <Button variant='outlined' type='submit' style={{margin: "10px", color: "#047AFB"}}>
                         Add question
-                    </Button>
-                    <Button
-                        variant='outlined'
-                        style={{margin: "10px", color: "#047AFB"}}
-                        onClick={() => {
-                            if (Object.keys(props.qs).length > 1) {
-                                return navigate("/startpage")
-                            } else {
-                                alert("No questions")
-                            }
-                        }}
-                    >
-                        Done!
                     </Button>
                 </div>
             </form>
@@ -298,6 +298,21 @@ function QuestionMenu(props) {
             <Stack>
                 {displayQuestions()}
             </Stack>
+            <div className="buttons" style={{margin: "1.5em"}}>
+                <Button
+                    variant='outlined'
+                    style={{margin: "10px", color: "#047AFB"}}
+                    onClick={() => {
+                        if (Object.keys(props.qs).length > 1) {
+                            return navigate("/startpage")
+                        } else {
+                            alert("No questions")
+                        }
+                    }}
+                >
+                    Done!
+                </Button>
+            </div>
         </div>
     );
 }

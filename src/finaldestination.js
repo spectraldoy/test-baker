@@ -2,6 +2,8 @@
 import { Button } from "@mui/material";
 import { Link } from "react-router-dom";
 import "./App.css"
+import 'katex/dist/katex.min.css';
+import TeX from '@matejmazur/react-katex';
 
 // TODO: offer consulting services page at end of the app
 // TODO: server and test persistence
@@ -48,12 +50,20 @@ function FinalDestination(props) {
     // get rid of the count property
     questionsAndAnswers = questionsAndAnswers.slice(0, -1)
 
+    function renderQuestion(question) {
+        if (question[0] === '$' && question[question.length - 1] === '$') {
+            return <TeX math={question.slice(1, -1)} block/>
+        } else {
+            return question
+        }
+    }
+
     function displayTest() {
         return questionsAndAnswers.map((item) => {
             return (
                 <h2>
                     <li key={item.label}>
-                        {item.question}
+                        {renderQuestion(item.question)}
                         <p style={{color: "#DA3E52"}}>Time taken: {(item.hours === 0) ? null : item.hours + ":"}{(item.hours === 0) ? item.mins : formatTime(item.mins)}:{formatTime(item.secs)} / {displayLimit(item.timer)}</p>
                         <p style={{color: "#047AFB"}}>{item.answer}</p>
                         <br></br>

@@ -230,7 +230,7 @@ function QuestionMenu(props) {
                 className="menu"
             >
                 <FormControl style={{margin: '1.5em', marginTop: "-1.5em"}}>
-                    <InputLabel htmlFor="questions">Type a question</InputLabel>
+                    <InputLabel htmlFor="questions">Type a question (Surround with '$' for LaTeX formatting)</InputLabel>
                     <Input
                         id="questions"
                         type="text"

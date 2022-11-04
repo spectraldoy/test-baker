@@ -32,7 +32,7 @@ function TimerDisplay(props) {
         minutes,
         hours,
         //start,
-        restart,
+        restart
     } = useTimer({ expiryTimestamp, autoStart: true, onExpire: () => answerQuestion(document.getElementById("answers").value),
     expiryCondition: (props.mode.includes("skip")) ? (x) => (x <= 0) : (x) => false });
     

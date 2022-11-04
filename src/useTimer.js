@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { Howl } from 'howler';
 
 // repurposed this library https://github.com/amrlabib/react-timer-hook
 import { Time, Validate } from './react-timer-utils';
@@ -19,6 +20,22 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
   const [isRunning, setIsRunning] = useState(autoStart);
   const [didStart, setDidStart] = useState(autoStart);
   const [delay, setDelay] = useState(getDelayFromExpiryTimestamp(expiryTimestamp));
+  const [playing, setPlaying] = useState(false);
+  // note: audio needs to be in the public folder
+  var alarm = new Howl({
+    src: ['soundbytes/alarmbyteTestBaker.mp3'],
+    onend: () => setPlaying(false),
+    volume: 0.5
+  });
+  
+  function playAlarm() {
+    if (playing || !isRunning) {
+      return;
+    }
+
+    setPlaying(true);
+    alarm.play();
+  }
 
   function handleExpire() {
     Validate.onExpire(onExpire) && onExpire();
@@ -31,6 +48,7 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
   }
 
   function restart(newExpiryTimestamp, newAutoStart = true) {
+    
     setDelay(getDelayFromExpiryTimestamp(newExpiryTimestamp));
     setDidStart(newAutoStart);
     setIsRunning(newAutoStart);
@@ -63,6 +81,11 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
     if (expiryCondition(secondsValue)) {
       handleExpire();
     }
+
+    if (secondsValue < 0) {
+      playAlarm();
+    }
+
   }, isRunning ? delay : null);
   return {
     ...Time.getTimeFromSeconds(seconds), start, pause, resume, restart, isRunning,

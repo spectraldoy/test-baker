@@ -23,7 +23,7 @@ export default function useTimer({ expiryTimestamp: expiry, onExpire, autoStart 
   const [playing, setPlaying] = useState(false);
   // note: audio needs to be in the public folder
   var alarm = new Howl({
-    src: ['soundbytes/alarmbyteTestBaker.mp3'],
+    src: ['soundbytes/boing.mp3'],
     onend: () => setPlaying(false),
     volume: 0.5
   });
